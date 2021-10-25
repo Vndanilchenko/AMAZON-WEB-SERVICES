@@ -19,19 +19,19 @@ API pipeline scheme
 
 ### then we will upload recommendations to the AWS S3
 
-to upload the final recommendations, I create a bucket "lambda-recommendations-test" on AWS S3 
+* to upload the final recommendations, I create a bucket "lambda-recommendations-test" on AWS S3 
 
 ![create_bucket](screenshots/RecSysLamdaAPI/1.png)
 
 ![create_bucket_result](screenshots/RecSysLamdaAPI/2.png)
 
-Let's write one file and check the result
+* Let's write one file and check the result
 
 ![write_file](screenshots/RecSysLamdaAPI/3.png)
 
 ![write_file_result](screenshots/RecSysLamdaAPI/4.png)
 
-Let's check how the algorithm works on all elements
+* Let's check how the algorithm works on all elements
 
 ![write_files](screenshots/RecSysLamdaAPI/5.png)
 
@@ -40,11 +40,12 @@ Let's check how the algorithm works on all elements
 
 ### after this we will create Lambda function to take our recommendations from AWS S3 during request
 
-Let's create a lambda-function "read-s3-recommendations"
+* Let's create a lambda-function "read-s3-recommendations"
 
 ![create_lambda](screenshots/RecSysLamdaAPI/6.png)
 
-Write the function code and deploy
+* Write the function code and deploy
+
 <xml/>
 
     import json, pickle, boto3
@@ -65,17 +66,17 @@ Write the function code and deploy
 
 ![create_lambda](screenshots/RecSysLamdaAPI/7.png)
 
-let's test our function
+* let's test our function
 
 ![test_lambda](screenshots/RecSysLamdaAPI/8.png)
 
 ![test_lambda_result](screenshots/RecSysLamdaAPI/9.png)
 
-We will improve the function so that it can issue a certain number of recommendations
+* We will improve the function so that it can issue a certain number of recommendations
 
 ![modify_lambda](screenshots/RecSysLamdaAPI/10.png)
 
-test
+* test
 
 ![test_lambda_2](screenshots/RecSysLamdaAPI/11.png)
 
@@ -86,19 +87,20 @@ test
 
 ### finally, we will describe an API for our pipeline in API Gateway that will accept requests and provide the correct responses    
 
-Create a new API in Amazon API Gateway
+* Create a new API in Amazon API Gateway
 
-![create_API](screenshots/RecSysLamdaAPI/API start.png)
+![create_API](screenshots/RecSysLamdaAPI/API%20start.png)
 
-Specify parameters
+* Specify parameters
 
-![create_API](screenshots/RecSysLamdaAPI/API start parameters.png)
+![create_API_params](screenshots/RecSysLamdaAPI/API%20start%20parameters.png)
 
-Let's create an endpoint "prod" by specifying a lambda function
+* Let's create an endpoint "prod" by specifying a lambda function
 
 ![create_endpoint](screenshots/RecSysLamdaAPI/13.png)
 
-Let's create "ReqLambda" - a model for requests
+* Let's create "ReqLambda" - a model for requests
+
 <xml/>
     
     {
@@ -135,7 +137,8 @@ Let's create "ReqLambda" - a model for requests
 
 ![requests_model](screenshots/RecSysLamdaAPI/14.png)
 
-And also we need to create a model for responses "RespLambda"
+* And also we need to create a model for responses "RespLambda"
+
 <xml/>
 
     {
@@ -174,53 +177,53 @@ And also we need to create a model for responses "RespLambda"
 
 ![responses_model](screenshots/RecSysLamdaAPI/15.png)
  
-Next, we need to select our "ReqLambda" request model in the Request method.
+* Next, we need to select our "ReqLambda" request model in the Request method.
 
 ![request_model_final](screenshots/RecSysLamdaAPI/16.png)
 
-And specify our "RespLambda" response model in the Method Response
+* And specify our "RespLambda" response model in the Method Response
 
 ![responses_model_final](screenshots/RecSysLamdaAPI/17.png)
 
-Test results match the results of the previous test after creating the Lambda function
+* Test results match the results of the previous test after creating the Lambda function
 
 ![responses_model_final](screenshots/RecSysLamdaAPI/18.png)
 
-Let's deploy our method to stage "prod"
+* Let's deploy our method to stage "prod"
 
 ![deploy](screenshots/RecSysLamdaAPI/20.png)
 
-Then we create an API key for our method
+* Then we create an API key for our method
 
 ![API_key](screenshots/RecSysLamdaAPI/21.png)
 
-Also we create a usage plan for the method
+* Also we create a usage plan for the method
 
 ![usage plan](screenshots/RecSysLamdaAPI/22.png)
 
-Let's associate the plan with our method (more precisely, with the stage in which the method is located)
+* Let's associate the plan with our method (more precisely, with the stage in which the method is located)
 
 ![usage plan_with_method](screenshots/RecSysLamdaAPI/23.png)
 
-And also bind to the API key
+* And also bind to the API key
 
 ![API_key_with_method](screenshots/RecSysLamdaAPI/24.png)
 
-Let's see the result of creating a usge plan for our prod method
+* Let's see the result of creating a usge plan for our prod method
 
 ![API_key_with_method](screenshots/RecSysLamdaAPI/25.png)
 
-Copy the URL to our method
+* Copy the URL to our method
 
 ![url](screenshots/RecSysLamdaAPI/26.png)
 
-Let's check the efficiency of the method from the outside by sending a test request via POSTMAN - the result corresponds to the previous tests, the status is 200, the response speed is excellent
+* Let's check the efficiency of the method from the outside by sending a test request via POSTMAN - the result corresponds to the previous tests, the status is 200, the response speed is excellent
 
 ![postman_headers](screenshots/RecSysLamdaAPI/29.png)
 
 ![postman_body](screenshots/RecSysLamdaAPI/27.png)
 
-and a few more requests
+* and a few more requests
 
 ![postman_body_2](screenshots/RecSysLamdaAPI/28.png)
 
